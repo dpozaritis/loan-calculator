@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1120" />
+  <meta name="description" content="Explore mortgage repayments, fixed and variable interest, accelerated payoff and scenario comparisons." />
+  <title>Mortgage Studio — Loan Calculator & Comparison</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">⌁</span><span>mortgage<span class="brand-light">studio</span></span></div>
+      <span class="top-note">PLAN BETTER · PAY SMARTER</span>
+    </header>
+    <section class="hero">
+      <p class="eyebrow">MORTGAGE PLANNING TOOL</p>
+      <h1>See the whole picture <span>before you borrow.</span></h1>
+      <p class="subtitle">Explore rates, loan terms and early repayment. Compare the true cost of two mortgages side by side.</p>
+    </section>
+    <div class="workspace-head">
+      <div class="section-heading"><span class="section-icon">◈</span><h2>Your scenarios</h2></div>
+      <label class="compare-switch"><input type="checkbox" id="compareToggle" /><span class="switch-track"></span><span>Compare two scenarios</span></label>
+    </div>
+    <section class="scenario-grid" id="scenarioGrid">
+      <article class="scenario card" data-scenario="a">
+        <div class="scenario-header"><div><span class="scenario-pill">SCENARIO A</span><h3>Your mortgage</h3></div><span class="scenario-dot dot-a"></span></div>
+        <div class="field-grid">
+          <label class="field field-wide">Loan amount <span class="input-wrap"><span class="prefix">€</span><input id="a-amount" type="number" min="1" max="100000000" step="1000" value="110000" /></span></label>
+          <label class="field">Loan duration <span class="input-wrap"><input id="a-term" type="number" min="1" max="40" step="1" value="30" /><span class="suffix">years</span></span></label>
+          <label class="field">Rate type <select id="a-type"><option value="fixed">Fixed throughout</option><option value="hybrid">Fixed then variable</option></select></label>
+          <label class="field">Fixed annual interest <span class="input-wrap"><input id="a-fixed" type="number" min="0" max="30" step="0.1" value="1.8" /><span class="suffix">%</span></span></label>
+          <div class="field field-wide hybrid-fields" id="a-hybrid" hidden>
+            <div class="field-grid inner-grid">
+              <label class="field">Fixed-rate period <span class="input-wrap"><input id="a-fixedYears" type="number" min="1" max="40" step="1" value="5" /><span class="suffix">years</span></span></label>
+              <div class="field note-field"><span>Variable rate after fixed period</span><span class="field-tip">Uses the midpoint of your range as the forecast rate.</span></div>
+              <label class="field">Minimum rate <span class="input-wrap"><input id="a-minRate" type="number" min="0" max="30" step="0.1" value="2.5" /><span class="suffix">%</span></span></label>
+              <label class="field">Maximum rate <span class="input-wrap"><input id="a-maxRate" type="number" min="0" max="30" step="0.1" value="4.5" /><span class="suffix">%</span></span></label>
+            </div>
+            <p class="rate-forecast" id="a-median"></p>
+          </div>
+        </div>
+        <div class="payoff-box">
+          <div class="payoff-header"><label for="a-target">Pay it off in</label><strong id="a-targetLabel">30 years</strong></div>
+          <input aria-label="Scenario A payoff years" type="range" id="a-target" min="1" max="30" step="1" value="30" />
+          <div class="range-labels"><span>Faster payoff</span><span id="a-rangeMax">30 years</span></div>
+        </div>
+        <div class="summary" id="a-summary" aria-live="polite"></div>
+      </article>
+      <article class="scenario card scenario-b" data-scenario="b" id="scenarioB" hidden>
+        <div class="scenario-header"><div><span class="scenario-pill purple">SCENARIO B</span><h3>Alternative mortgage</h3></div><span class="scenario-dot dot-b"></span></div>
+        <div class="field-grid">
+          <label class="field field-wide">Loan amount <span class="input-wrap"><span class="prefix">€</span><input id="b-amount" type="number" min="1" max="100000000" step="1000" value="110000" /></span></label>
+          <label class="field">Loan duration <span class="input-wrap"><input id="b-term" type="number" min="1" max="40" step="1" value="30" /><span class="suffix">years</span></span></label>
+          <label class="field">Rate type <select id="b-type"><option value="fixed">Fixed throughout</option><option value="hybrid" selected>Fixed then variable</option></select></label>
+          <label class="field">Fixed annual interest <span class="input-wrap"><input id="b-fixed" type="number" min="0" max="30" step="0.1" value="2.4" /><span class="suffix">%</span></span></label>
+          <div class="field field-wide hybrid-fields" id="b-hybrid">
+            <div class="field-grid inner-grid">
+              <label class="field">Fixed-rate period <span class="input-wrap"><input id="b-fixedYears" type="number" min="1" max="40" step="1" value="5" /><span class="suffix">years</span></span></label>
+              <div class="field note-field"><span>Variable rate after fixed period</span><span class="field-tip">Uses the midpoint of your range as the forecast rate.</span></div>
+              <label class="field">Minimum rate <span class="input-wrap"><input id="b-minRate" type="number" min="0" max="30" step="0.1" value="2.5" /><span class="suffix">%</span></span></label>
+              <label class="field">Maximum rate <span class="input-wrap"><input id="b-maxRate" type="number" min="0" max="30" step="0.1" value="4.5" /><span class="suffix">%</span></span></label>
+            </div>
+            <p class="rate-forecast" id="b-median"></p>
+          </div>
+        </div>
+        <div class="payoff-box">
+          <div class="payoff-header"><label for="b-target">Pay it off in</label><strong id="b-targetLabel">30 years</strong></div>
+          <input aria-label="Scenario B payoff years" type="range" id="b-target" min="1" max="30" step="1" value="30" />
+          <div class="range-labels"><span>Faster payoff</span><span id="b-rangeMax">30 years</span></div>
+        </div>
+        <div class="summary" id="b-summary" aria-live="polite"></div>
+      </article>
+    </section>
+    <section id="compareInsight" class="comparison-insight" hidden aria-live="polite"></section>
+    <section class="visuals">
+      <div class="section-heading"><span class="section-icon">▥</span><h2>Where your money goes</h2></div>
+      <div class="charts-grid">
+        <article class="card chart-card"><div class="chart-heading"><div><h3>Total repayment</h3><p>Loan principal and all interest paid</p></div></div><div id="costChart" class="cost-chart" role="img" aria-label="Comparison of principal and interest paid"></div><div class="legend"><span><i class="legend-principal"></i>Loan principal</span><span><i class="legend-interest"></i>Interest paid</span></div></article>
+        <article class="card chart-card"><div class="chart-heading"><div><h3>Remaining loan balance</h3><p>How debt decreases over time</p></div></div><div id="balanceChart" class="balance-chart" role="img" aria-label="Remaining loan balance over the years"></div><div id="lineLegend" class="legend"></div></article>
+      </div>
+    </section>
+    <section class="assumptions card"><span class="info-icon">i</span><div><h3>How the estimates work</h3><p>Uses a standard monthly amortizing loan with payments at the end of each month. For fixed-then-variable loans, the rate changes once after the fixed period and stays at the midpoint of your entered range thereafter. Your payment is recalculated when the rate changes, based on the remaining balance and your chosen payoff date. The payoff slider models a shorter amortization period, not a one-time lump-sum prepayment. Actual future variable rates may change repeatedly. Excludes fees, insurance, taxes, and early repayment penalties. Results are planning estimates, not bank quotes.</p></div></section>
+    <footer>Mortgage Studio <span>·</span> Built for clearer financial decisions <span>·</span> Runs entirely in your browser</footer>
+  </main>
+</body>
+</html>
